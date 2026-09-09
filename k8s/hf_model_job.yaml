@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hf-download
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: hf-download
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Never
+      containers:
+        - name: hf-download
+          image: myregistry.com/hfcli
+          command:
+            - hf
+          args:
+            - download
+            - google-t5/t5-small
+            - config.json
+            - generation_config.json
+            - model.safetensors
+            - tokenizer_config.json
+            - tokenizer.json
+            - spiece.model
+            - --local-dir
+            - /model/t5-small
+          volumeMounts:
+            - name: model-volume
+              mountPath: /model
+      volumes:
+        - name: model-volume
+          persistentVolumeClaim:
+            claimName: model-pvc
+

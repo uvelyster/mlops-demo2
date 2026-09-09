@@ -1,0 +1,6 @@
+transformers==4.46.3
+torch>=2.2
+sentencepiece
+beautifulsoup4
+requests
+click
