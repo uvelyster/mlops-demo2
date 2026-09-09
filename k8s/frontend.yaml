@@ -17,6 +17,12 @@ spec:
       containers:
       - image: myregistry.com/frontend:v2
         name: frontend
-        imagePullPolicy: Always
+        env:
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-url
+              key: url
+            
       imagePullSecrets: 
       - name: regcred
